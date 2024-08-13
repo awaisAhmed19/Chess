@@ -1,0 +1,36 @@
+# Compiler
+CC = gcc
+
+# Source file
+SRC = main.c init.c bitboard.c
+
+# Output executable
+OUT = main
+
+# Include directories (if any)
+#INCLUDES = -Iinclude/
+
+# Library directories
+#LIBDIRS = -Llib/
+
+# Libraries to link against
+#LIBS = -lraylib -lopengl32 -lgdi32 -lwinmm
+
+# Compilation flags
+#CFLAGS = $(INCLUDES)
+
+# Linker flags
+#LDFLAGS = $(LIBDIRS) $(LIBS)
+
+# Default target
+all: $(OUT)
+
+# Build the executable
+$(OUT): $(SRC)
+	$(CC)  $(SRC) -o $(OUT) 
+	$(OUT)
+# Clean up build files
+clean:
+	rm -f $(OUT)
+
+
