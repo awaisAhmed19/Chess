@@ -24,6 +24,8 @@ typedef unsigned long long U64;
     }
 #endif
 
+#define START_FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+
 enum
 {
     EMPTY,
@@ -224,4 +226,5 @@ extern void ResetBoard(S_BOARD *pos);
 
 // Hashkey.c
 extern U64 GeneratePosKeys(const S_BOARD *pos);
+
 #endif
