@@ -1,6 +1,6 @@
 # Chess Game in C
 
-![Chess Game](chess.png) <!-- Optional: Include a screenshot of your game -->
+![Chess Game](src/chess.png) <!-- Optional: Include a screenshot of your game -->
 
 ## Overview
 

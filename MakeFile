@@ -1,36 +1,24 @@
-# Compiler
 CC = gcc
 
-# Source file
-SRC = main.c init.c bitboard.c hashKey.c board.c data.c
 
-# Output executable
-OUT = main
+CFLAGS = -Wall -g
 
-# Include directories (if any)
-#INCLUDES = -Iinclude/
 
-# Library directories
-#LIBDIRS = -Llib/
+SRC_DIR = src
 
-# Libraries to link against
-#LIBS = -lraylib -lopengl32 -lgdi32 -lwinmm
 
-# Compilation flags
-#CFLAGS = $(INCLUDES)
+SRCS = $(wildcard $(SRC_DIR)/*.c)
 
-# Linker flags
-#LDFLAGS = $(LIBDIRS) $(LIBS)
 
-# Default target
+OUT = chess
+
+
 all: $(OUT)
 
-# Build the executable
-$(OUT): $(SRC)
-	$(CC)  $(SRC) -o $(OUT) 
-	$(OUT)
-# Clean up build files
+$(OUT): $(SRCS)
+	$(CC) $(SRCS) -o $(OUT)
+	./$(OUT)
+
+
 clean:
 	rm -f $(OUT)
-
-
