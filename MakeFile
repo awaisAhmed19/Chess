@@ -2,7 +2,7 @@
 CC = gcc
 
 # Source file
-SRC = main.c init.c bitboard.c
+SRC = main.c init.c bitboard.c hashKey.c board.c data.c
 
 # Output executable
 OUT = main

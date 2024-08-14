@@ -15,11 +15,11 @@ typedef unsigned long long U64;
 #define ASSERT(n)                          \
     if (!(n))                              \
     {                                      \
-        printf("%s- Failed", #n);          \
-        printf("On %s ", __DATE__);        \
-        printf("At %s ", __TIME__);        \
-        printf("In File %s ", __FILE__);   \
-        printf("At Line %d\n ", __LINE__); \
+        printf("%s -Failed \n", #n);       \
+        printf("On %s \n", __DATE__);      \
+        printf("At %s \n", __TIME__);      \
+        printf("In File %s \n", __FILE__); \
+        printf("At Line %d \n", __LINE__); \
         exit(1);                           \
     }
 #endif
@@ -141,7 +141,8 @@ enum
     F8,
     G8,
     H8,
-    NO_SQ
+    NO_SQ,
+    OFFBOARD
 };
 
 enum
@@ -185,9 +186,10 @@ typedef struct
     U64 PosKey;
 
     int pcsNum[13];
-    int bigPce[3];
-    int majPce[3];
-    int minPce[3];
+    int bigPce[2];
+    int majPce[2];
+    int minPce[2];
+    int material[2];
 
     S_UNDO history[MAXGAMEMOVE];
 
@@ -215,16 +217,30 @@ extern U64 PieceKeys[13][120];
 extern U64 SideKey;
 extern U64 CastleKeys[16];
 
+extern char PceChar[];
+extern char SideChar[];
+extern char RankChar[];
+extern char FileChar[];
+
+extern int PieceBig[13];
+extern int PieceMaj[13];
+extern int PieceMin[13];
+extern int PieceVal[13];
+extern int PieceCol[13];
+
 // function
 extern void AllInit();
 extern void PrintBitBoard(U64 bb);
 extern int PopBit(U64 *bb);
 extern int CountBit(U64 b);
 
-// board.c
-extern void ResetBoard(S_BOARD *pos);
-
 // Hashkey.c
 extern U64 GeneratePosKeys(const S_BOARD *pos);
+
+// board.c
+extern void ResetBoard(S_BOARD *pos);
+extern int ParseFen(char *fen, S_BOARD *pos);
+extern void PrintBoard(const S_BOARD *pos);
+extern void UpdateListMaterial(S_BOARD *pos);
 
 #endif

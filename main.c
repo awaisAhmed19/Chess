@@ -1,38 +1,27 @@
 #include <stdio.h>
 #include "defs.h"
 #include <stdlib.h>
+#define FEN1 "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"
+#define FEN3 "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
+#define FEN2 "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2"
 
-void printBinary(unsigned int value)
-{
-    unsigned int mask = 1 << (sizeof(value) * 8 - 1); // Create a mask for the most significant bit
-
-    for (int i = 0; i < sizeof(value) * 8; i++)
-    {
-        putchar(value & mask ? '1' : '0'); // Print '1' if the bit is set, otherwise '0'
-        mask >>= 1;                        // Shift mask to the right
-    }
-    putchar('\n'); // Print a newline character at the end
-}
 int main(void)
 {
     AllInit();
-    int al = rand();
-    int am = rand();
-    int an = rand();
-    int ao = rand();
 
-    printf("al=%X\n", al);
-    printf("am=%X\n", am);
-    printf("an=%X\n", am);
-    printf("ao=%X\n", ao);
-    unsigned int key = al ^ am ^ an ^ ao;
-    printf("%d\n", key);
-    unsigned int temp = al;
-    temp ^= am;
-    temp ^= an;
-    temp ^= ao;
-    printf("%d\n", temp);
-    printBinary(key);
-    printBinary(temp);
+    S_BOARD board[1];
+
+    ParseFen(START_FEN, board);
+    PrintBoard(board);
+
+    ParseFen(FEN1, board);
+    PrintBoard(board);
+
+    ParseFen(FEN2, board);
+    PrintBoard(board);
+
+    ParseFen(FEN3, board);
+    PrintBoard(board);
+
     return 0;
 }

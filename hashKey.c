@@ -10,8 +10,9 @@ U64 GeneratePosKeys(const S_BOARD *pos)
     for (sq = 0; sq < BRD_SQ_NUM; ++sq)
     {
         piece = pos->pieces[sq];
-        if (piece != NO_SQ && piece != EMPTY)
+        if (piece != NO_SQ && piece != EMPTY && piece != OFFBOARD)
         {
+            // printf("Debug: piece = %d\n", piece);
             ASSERT(piece >= wP && piece <= bK);
             finalKey ^= PieceKeys[piece][sq];
         }
