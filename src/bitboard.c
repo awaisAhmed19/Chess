@@ -80,47 +80,47 @@ PopBit function takes a `unsigned long long` pointer to a bitboard, which is ini
 
 int PopBit(U64 *bb)
 {
-    U64 b = *bb ^ (*bb - 1);
-    unsigned int fold = (unsigned)((b & 0xffffffff) ^ (b >> 32));
-    *bb &= (*bb - 1);
-    int index = (fold * 0x783a9b23) >> 26;
-    return BitTable[index];
+  U64 b = *bb ^ (*bb - 1);
+  unsigned int fold = (unsigned)((b & 0xffffffff) ^ (b >> 32));
+  *bb &= (*bb - 1);
+  int index = (fold * 0x783a9b23) >> 26;
+  return BitTable[index];
 }
 
 int CountBit(U64 b)
 {
-    int r;
-    for (r = 0; b; r++, b &= b - 1)
-        ;
-    return r;
+  int r;
+  for (r = 0; b; r++, b &= b - 1)
+    ;
+  return r;
 }
 
 void PrintBitBoard(U64 bb)
 {
-    U64 shiftMe = 1ULL;
+  U64 shiftMe = 1ULL;
 
-    int rank = 0;
-    int file = 0;
-    int sq = 0;
-    int sq64 = 0;
+  int rank = 0;
+  int file = 0;
+  int sq = 0;
+  int sq64 = 0;
 
-    printf("\n");
-    for (rank = RANK_8; rank >= RANK_1; --rank)
+  printf("\n");
+  for (rank = RANK_8; rank >= RANK_1; --rank)
+  {
+    for (file = FILE_A; file <= FILE_H; ++file)
     {
-        for (file = 0; file <= FILE_H; ++file)
-        {
-            sq = FR2SQ(file, rank);
-            sq64 = SQ64(sq);
-            if ((shiftMe << sq64) & bb)
-            {
-                printf("X");
-            }
-            else
-            {
-                printf("-");
-            }
-        }
-        printf("\n");
+      sq = FR2SQ(file, rank);
+      sq64 = SQ64(sq);
+      if ((shiftMe << sq64) & bb)
+      {
+        printf("X");
+      }
+      else
+      {
+        printf("-");
+      }
     }
-    printf("\n\n");
+    printf("\n");
+  }
+  printf("\n\n");
 }

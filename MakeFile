@@ -1,24 +1,25 @@
+# Compiler
 CC = gcc
 
-
+# Compiler flags
 CFLAGS = -Wall -g
 
-
+# Source files directory
 SRC_DIR = src
 
-
+# Source files
 SRCS = $(wildcard $(SRC_DIR)/*.c)
 
+# Output binary
+OUT = chess.exe
 
-OUT = chess
-
-
+# Compile all source files
 all: $(OUT)
 
 $(OUT): $(SRCS)
 	$(CC) $(SRCS) -o $(OUT)
-	./$(OUT)
+	$(OUT)
 
-
+# Clean the build
 clean:
-	rm -f $(OUT)
+	del /F /Q $(OUT)
