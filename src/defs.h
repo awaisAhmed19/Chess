@@ -7,6 +7,7 @@ typedef unsigned long long U64;
 #define Name "chess 1.0"
 #define BRD_SQ_NUM 120
 
+#define MAXPOSITIONMOVES 256
 #define MAXGAMEMOVE 2048
 #define DEBUG
 
@@ -41,8 +42,7 @@ enum
     bB,
     bR,
     bQ,
-    bK,
-
+    bK
 };
 enum
 {
@@ -75,7 +75,12 @@ enum
     BLACK,
     BOTH
 };
-
+enum
+{
+    UCIMODE,
+    XBOARDMODE,
+    CONSOLEMODE
+};
 enum
 {
     A1 = 21,
@@ -148,16 +153,16 @@ enum
 
 enum
 {
-    WKCA = 1,
-    WQCA = 2,
-    BKCA = 4,
-    BQCA = 8
+    FALSE,
+    TRUE
 };
 
 enum
 {
-    FALSE, // FALSE =0
-    TRUE   // TRUE=0
+    WKCA = 1,
+    WQCA = 2,
+    BKCA = 4,
+    BQCA = 8
 };
 
 typedef struct
@@ -174,6 +179,12 @@ typedef struct
     int move;
     int score;
 } S_MOVE;
+
+typedef struct
+{
+    S_MOVE moves[MAXPOSITIONMOVES];
+    int count;
+} S_MOVELIST;
 
 typedef struct
 {
@@ -204,7 +215,26 @@ typedef struct
 
 } S_BOARD;
 
+/*
+0000 0000 0000 0000 0000 0111 1111 -> From 0x7f
+0000 0000 0000 0011 1111 1000 0000 -> to >>7 0x7f
+0000 0000 0011 1100 0000 0000 0000 -> capture >>14 0xf
+0000 0000 0100 0000 0000 0000 0000 -> Enpas 0x40000
+0000 0000 1000 0000 0000 0000 0000 -> pawn start 0x80000
+0000 1111 0000 0000 0000 0000 0000 -> Promoted piece >>20 0xf
+0001 0000 0000 0000 0000 0000 0000 -> Castle 0x1000000
+*/
+
 // Macros
+#define FROMSQ(m) ((m) & 0x7f)
+#define TOSQ(m) (((m) >> 7) & 0x7f)
+#define CAPTURED(m) (((m) >> 14) & 0xf)
+#define PROMOTED(m) (((m) >> 20) & 0xf)
+#define MFLAGEP 0x40000
+#define MFLAGPS 0x80000
+#define MFLAGCA 0x1000000
+#define MFLAGCAP 0x7c000
+#define MFLAGPROM 0xf00000
 
 #define FR2SQ(f, r) ((21 + (f)) + ((r) * 10)) // converts files and rank into 120based sq board index
 #define SQ64(sq120) (Sq120ToSq64[(sq120)])    // converts 120sq board index into 64 sq
@@ -267,4 +297,17 @@ extern int sqAttacked(const int sq, const int side, const S_BOARD *pos);
 
 // test.c
 extern void showAttacks(const int side, S_BOARD *pos);
+
+// io.c
+extern char *PrSq(const int sq);
+extern char *PrMove(const int move);
+
+// validate.c
+
+extern int SqOnBoard(const int sq);
+extern int SideValid(const int side);
+extern int FileRankValid(const int fr);
+extern int PieceValidEmpty(const int pce);
+extern int PieceValid(const int pce);
+
 #endif

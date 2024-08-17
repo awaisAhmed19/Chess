@@ -1,0 +1,26 @@
+#include "defs.h"
+
+int SqOnBoard(const int sq)
+{
+    return FilesBrd[sq] == OFFBOARD ? 0 : 1;
+}
+
+int SideValid(const int side)
+{
+    return (side == WHITE || side == BLACK) ? 0 : 1;
+}
+
+int FileRankValid(const int fr)
+{
+    return (fr >= 0 && fr <= 7) ? 0 : 1;
+}
+
+int PieceValidEmpty(const int pce)
+{
+    return (pce >= EMPTY && pce <= bK) ? 0 : 1;
+}
+
+int PieceValid(const int pce)
+{
+    return (pce >= wP && pce <= bK) ? 0 : 1;
+}
