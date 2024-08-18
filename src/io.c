@@ -24,7 +24,7 @@ char *PrMove(const int move)
     int rt = RanksBrd[TOSQ(move)];
 
     int promoted = PROMOTED(move);
-    printf("ff:%d rf:%d  ft:%d rt:%d\n", ff, rf, ft, rt);
+    // printf("ff:%d rf:%d  ft:%d rt:%d\n", ff, rf, ft, rt);
     if (promoted)
     {
         char pChar = 'q';
@@ -45,7 +45,25 @@ char *PrMove(const int move)
     else
     {
 
-        sprintf(MvStr, "%c%c%c%c%c", ('a' + ff), ('1' + rf), ('a' + ft), ('1' + rt));
+        sprintf(MvStr, "%c%c%c%c", ('a' + ff), ('1' + rf), ('a' + ft), ('1' + rt));
     }
     return MvStr;
+}
+
+void PrintMoveList(const S_MOVELIST *list)
+{
+    int index = 0;
+    int score = 0;
+    int move = 0;
+
+    printf("Move list :\n", list->count);
+
+    for (index = 0; index < list->count; ++index)
+    {
+        move = list->moves[index].move;
+        // printf(" %d\n", move);
+        score = list->moves[index].score;
+        printf("Move: %d > %s (score: %d)\n", index + 1, PrMove(move), score);
+    }
+    printf("MovesList total %d moves\n", list->count);
 }

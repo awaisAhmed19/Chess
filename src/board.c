@@ -101,7 +101,7 @@ void UpdateListMaterial(S_BOARD *pos)
                 pos->bigPce[color]++;
             if (PieceMin[piece] == TRUE)
                 pos->minPce[color]++;
-            if (PieceMin[piece] == TRUE)
+            if (PieceMaj[piece] == TRUE)
                 pos->majPce[color]++;
 
             pos->material[color] += PieceVal[piece];

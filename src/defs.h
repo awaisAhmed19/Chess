@@ -301,6 +301,7 @@ extern void showAttacks(const int side, S_BOARD *pos);
 // io.c
 extern char *PrSq(const int sq);
 extern char *PrMove(const int move);
+extern void PrintMoveList(const S_MOVELIST *list);
 
 // validate.c
 
@@ -309,5 +310,8 @@ extern int SideValid(const int side);
 extern int FileRankValid(const int fr);
 extern int PieceValidEmpty(const int pce);
 extern int PieceValid(const int pce);
+
+// movegen.c
+extern void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list);
 
 #endif
