@@ -4,12 +4,12 @@
 #define MOVE(f, t, ca, prom, fl) ((f) | ((t) << 7) | ((ca) << 14) | ((prom) << 20) | (fl))
 #define SQOFFBOARD(sq) (FilesBrd[(sq)] == OFFBOARD)
 
-int LoopSlideindex[2] = {0, 4};
-int LoopSlidePce[8] = {
+const int LoopSlideindex[2] = {0, 4};
+const int LoopSlidePce[8] = {
     wB, wR, wQ, 0, bB, bR, bQ, 0};
 
-int LoopNonSlideindex[2] = {0, 3};
-int LoopNonSlidePce[8] = {
+const int LoopNonSlideindex[2] = {0, 3};
+const int LoopNonSlidePce[8] = {
     wN, wK, 0, bN, bK, 0};
 
 const int PceDir[13][8] = {
@@ -30,7 +30,7 @@ const int PceDir[13][8] = {
 const int NumDir[13] = {
     0, 0, 8, 4, 4, 8, 8, 0, 8, 4, 4, 8, 8};
 
-void AddQuietMove(const S_BOARD *pos, int move, S_MOVELIST *list)
+static void AddQuietMove(const S_BOARD *pos, int move, S_MOVELIST *list)
 {
     ASSERT(SqOnBoard(FROMSQ(move)));
     ASSERT(SqOnBoard(TOSQ(move)));
@@ -40,7 +40,7 @@ void AddQuietMove(const S_BOARD *pos, int move, S_MOVELIST *list)
     list->count++;
 }
 
-void AddCaptureMove(const S_BOARD *pos, int move, S_MOVELIST *list)
+static void AddCaptureMove(const S_BOARD *pos, int move, S_MOVELIST *list)
 {
     ASSERT(SqOnBoard(FROMSQ(move)));
     ASSERT(SqOnBoard(TOSQ(move)));
@@ -50,7 +50,7 @@ void AddCaptureMove(const S_BOARD *pos, int move, S_MOVELIST *list)
     list->count++;
 }
 
-void AddEnPassantMove(const S_BOARD *pos, int move, S_MOVELIST *list)
+static void AddEnPassantMove(const S_BOARD *pos, int move, S_MOVELIST *list)
 {
     ASSERT(SqOnBoard(FROMSQ(move)));
     ASSERT(SqOnBoard(TOSQ(move)));
@@ -60,7 +60,7 @@ void AddEnPassantMove(const S_BOARD *pos, int move, S_MOVELIST *list)
     list->count++;
 }
 
-void AddWhitePawnCapMove(const S_BOARD *pos, const int from, const int to, const int cap, S_MOVELIST *list)
+static void AddWhitePawnCapMove(const S_BOARD *pos, const int from, const int to, const int cap, S_MOVELIST *list)
 {
     ASSERT(SqOnBoard(from));
     ASSERT(SqOnBoard(to));
@@ -79,7 +79,7 @@ void AddWhitePawnCapMove(const S_BOARD *pos, const int from, const int to, const
     }
 }
 
-void AddBlackPawnCapMove(const S_BOARD *pos, const int from, const int to, const int cap, S_MOVELIST *list)
+static void AddBlackPawnCapMove(const S_BOARD *pos, const int from, const int to, const int cap, S_MOVELIST *list)
 {
     ASSERT(SqOnBoard(from));
     ASSERT(SqOnBoard(to));
@@ -97,7 +97,7 @@ void AddBlackPawnCapMove(const S_BOARD *pos, const int from, const int to, const
     }
 }
 
-void AddWhitePawnMove(const S_BOARD *pos, const int from, const int to, S_MOVELIST *list)
+static void AddWhitePawnMove(const S_BOARD *pos, const int from, const int to, S_MOVELIST *list)
 {
 
     ASSERT(SqOnBoard(from));
@@ -116,7 +116,7 @@ void AddWhitePawnMove(const S_BOARD *pos, const int from, const int to, S_MOVELI
     }
 }
 
-void AddBlackPawnMove(const S_BOARD *pos, const int from, const int to, S_MOVELIST *list)
+static void AddBlackPawnMove(const S_BOARD *pos, const int from, const int to, S_MOVELIST *list)
 {
 
     ASSERT(SqOnBoard(from));
@@ -149,8 +149,7 @@ void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list)
     int index = 0;
     int pceIndex = 0;
 
-    // printf("side: %d", side);
-    // pawn moves
+        // pawn moves
     if (side == WHITE)
     {
         for (pceNum = 0; pceNum < pos->pcsNum[wP]; ++pceNum)

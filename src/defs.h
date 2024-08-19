@@ -169,6 +169,7 @@ typedef struct
 {
     int move;
     int castlePerm;
+    int enpas;
     int fiftyMove;
     U64 posKey; // 64 bits of value
 
@@ -270,6 +271,7 @@ extern int PieceMaj[13]; // Array indicating whether each piece type is consider
 extern int PieceMin[13]; // Array indicating whether each piece type is considered a "minor" piece (e.g., bishop, knight).
 extern int PieceVal[13]; // Array holding the value of the piece type (e.g., pawn=100).
 extern int PieceCol[13]; // Array indicating the color of each piece type (e.g., WHITE ,BLACK).
+extern int PiecePawn[13];
 extern int FilesBrd[BRD_SQ_NUM];
 extern int RanksBrd[BRD_SQ_NUM];
 
