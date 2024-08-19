@@ -1,0 +1,5 @@
+# Ignore all .exe files
+*.exe
+
+# Ignore .git directory (this should be ignored by default)
+.git/

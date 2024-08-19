@@ -8,7 +8,7 @@ char *PrSq(const int sq)
     int file = FilesBrd[sq];
     int rank = RanksBrd[sq];
 
-    printf("%d %d", file, rank);
+    // printf("%d %d", file, rank);
     sprintf(SqStr, "%c%c", ('a' + file), ('1' + rank));
 
     return SqStr;

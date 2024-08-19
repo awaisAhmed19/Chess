@@ -7,7 +7,7 @@ int SqOnBoard(const int sq)
 
 int SideValid(const int side)
 {
-    return (side == WHITE || side == BLACK) ? 0 : 1;
+    return (side == WHITE || side == BLACK) ? 1 : 0;
 }
 
 int FileRankValid(const int fr)
@@ -22,5 +22,5 @@ int PieceValidEmpty(const int pce)
 
 int PieceValid(const int pce)
 {
-    return (pce >= wP && pce <= bK) ? 0 : 1;
+    return (pce >= wP && pce <= bK) ? 1 : 0;
 }

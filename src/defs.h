@@ -204,8 +204,10 @@ typedef struct
     U64 PosKey;     // ULL value that  hold a randomly generated value for the position of the pawns
 
     int pcsNum[13]; // hold the number of piece of each type
-    int bigPce[2];  // hold the count for the big peices like the rooks and queen
-    int majPce[2];  // holds the count for the maj pieces like the bishops
+                    //  This is a 2D array where the first dimension ([13]) represents different types of pieces (e.g., wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK, and EMPTY).
+
+    int bigPce[2]; // hold the count for the big peices like the rooks and queen
+    int majPce[2]; // holds the count for the maj pieces like the bishops
     int minPce[2];
     int material[2]; // counts the number of pieces in each side
 
