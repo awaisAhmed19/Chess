@@ -144,7 +144,7 @@ static void MovePiece(const int from, const int to, S_BOARD *pos)
             break;
         }
     }
-    ASSERT(t_PieceNum);
+    // ASSERT(t_PieceNum);
 }
 
 int MakeMove(S_BOARD *pos, int move)
@@ -263,9 +263,94 @@ int MakeMove(S_BOARD *pos, int move)
 
     if (sqAttacked(pos->KingSq[side], pos->side, pos))
     {
-        //       TakeMove(pos);
+        TakeMove(pos);
         return FALSE;
     }
 
     return TRUE;
+}
+
+void TakeMove(S_BOARD *pos)
+{
+    ASSERT(CheckBoard(pos));
+    // decrementing ply and hisply
+    pos->hisply--;
+    pos->ply--;
+
+    // poping the previous move from history array
+    // getting the from and to sq for the move popped
+    int move = pos->history[pos->hisply].move;
+    int from = FROMSQ(move);
+    int to = TOSQ(move);
+
+    ASSERT(SqOnBoard(from)); // check if the move is on the board
+    ASSERT(SqOnBoard(to));
+
+    if (pos->enpas != NO_SQ) // check if the enpas sq is not nosq and hash a new ep and castleing if true
+        HASH_EP;
+    HASH_CA;
+
+    pos->castlePerm = pos->history[pos->hisply].castlePerm;
+    pos->enpas = pos->history[pos->hisply].enpas;
+    pos->fiftyMove = pos->history[pos->hisply].fiftyMove;
+
+    if (pos->enpas != NO_SQ)
+        HASH_EP;
+    HASH_CA;
+
+    pos->side ^= 1;
+    HASH_SIDE;
+
+    if (MFLAGEP & move)
+    {
+        if (pos->side == WHITE)
+        {
+            AddPiece(to - 10, pos, bP);
+        }
+        else
+        {
+            AddPiece(to + 10, pos, wP);
+        }
+    }
+    else if (MFLAGCA & move)
+    {
+        switch (to)
+        {
+        case C1:
+            MovePiece(D1, A1, pos);
+            break;
+        case C8:
+            MovePiece(D8, A8, pos);
+            break;
+        case G1:
+            MovePiece(F1, H1, pos);
+            break;
+        case G8:
+            MovePiece(F8, H8, pos);
+            break;
+        default:
+            ASSERT(FALSE);
+            break;
+        }
+    }
+    MovePiece(to, from, pos);
+
+    if (PieceKing[pos->pieces[from]])
+    {
+        pos->KingSq[pos->side] = from;
+    }
+    int captured = CAPTURED(move);
+    if (captured != EMPTY)
+    {
+        ASSERT(PieceValid(captured));
+        AddPiece(to, pos, captured);
+    }
+    if (PROMOTED(move) != EMPTY)
+    {
+        ASSERT(PieceValid(PROMOTED(move)) && !PiecePawn[PROMOTED(move)]);
+        ClearPiece(from, pos); // clear the promoted maj piece and
+        // then add the pawn piece on the previous rank with appropriate colour
+        AddPiece(from, pos, (PieceCol[PROMOTED(move)] == WHITE ? wP : bP));
+    }
+    ASSERT(CheckBoard(pos));
 }

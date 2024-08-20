@@ -9,6 +9,9 @@ typedef unsigned long long U64;
 
 #define MAXPOSITIONMOVES 256
 #define MAXGAMEMOVE 2048
+#define MAX_FEN 2048
+#define FEN_LENGTH 256
+
 #define DEBUG
 
 #ifndef DEBUG
@@ -164,6 +167,18 @@ enum
     BKCA = 4,
     BQCA = 8
 };
+typedef struct
+{
+    char fen[MAX_FEN][FEN_LENGTH];
+    long int D1[MAX_FEN];
+    long int D2[MAX_FEN];
+    long int D3[MAX_FEN];
+    long int D4[MAX_FEN];
+    long int D5[MAX_FEN];
+
+    int count;
+
+} FENDATA;
 
 typedef struct
 {
@@ -301,7 +316,8 @@ extern int sqAttacked(const int sq, const int side, const S_BOARD *pos);
 
 // test.c
 extern void showAttacks(const int side, S_BOARD *pos);
-
+extern void accuracyTest(FENDATA *data, S_BOARD *pos);
+extern void getFen(char *file, FENDATA *data);
 // io.c
 extern char *PrSq(const int sq);
 extern char *PrMove(const int move);
@@ -317,5 +333,13 @@ extern int PieceValid(const int pce);
 
 // movegen.c
 extern void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list);
+
+// movemaker.c
+extern int MakeMove(S_BOARD *pos, int move);
+extern void TakeMove(S_BOARD *pos);
+
+// perft.c
+extern long PerftTest(int depth, S_BOARD *pos);
+extern void Perft(int depth, S_BOARD *pos);
 
 #endif
