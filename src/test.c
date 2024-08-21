@@ -53,7 +53,7 @@ void getFen(char *filename, FENDATA *data)
     while (fgets(buffer, sizeof(buffer), file) != NULL)
     {
         char fen_part[FEN_LENGTH];
-        long int d4 = 0, d5 = 0;
+        long long int d4 = 0, d5 = 0, d6 = 0;
         sscanf(buffer, "%99[^;]", fen_part);
 
         // Print the parsed values
@@ -74,6 +74,11 @@ void getFen(char *filename, FENDATA *data)
             {
                 sscanf(token, "D5 %ld", &d5);
                 data->D5[index] = d5;
+            }
+            else if (strstr(token, "D6") != NULL)
+            {
+                sscanf(token, "D6 %ld", &d6);
+                data->D6[index] = d6;
             }
         }
         index++;
@@ -98,7 +103,7 @@ void accuracyTest(FENDATA *data, S_BOARD *pos)
     {
         AllInit();
         ParseFen(data->fen[count], pos);
-        printf("%d fen: %s d4: %ld d5: %ld\n ", count + 1, data->fen[count], data->D4[count], data->D5[count]);
+        printf("%d d4: %ld\n ", count + 1, data->D4[count]);
 
         if (PerftTest(4, pos) == data->D4[count])
         {

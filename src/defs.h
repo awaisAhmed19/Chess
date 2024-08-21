@@ -175,6 +175,7 @@ typedef struct
     long int D3[MAX_FEN];
     long int D4[MAX_FEN];
     long int D5[MAX_FEN];
+    long long int D6[MAX_FEN];
 
     int count;
 
@@ -244,15 +245,15 @@ typedef struct
 */
 
 // Macros
-#define FROMSQ(m) ((m) & 0x7f)
-#define TOSQ(m) (((m) >> 7) & 0x7f)
-#define CAPTURED(m) (((m) >> 14) & 0xf)
-#define PROMOTED(m) (((m) >> 20) & 0xf)
+#define FROMSQ(m) ((m) & 0x7F)
+#define TOSQ(m) (((m) >> 7) & 0x7F)
+#define CAPTURED(m) (((m) >> 14) & 0xF)
+#define PROMOTED(m) (((m) >> 20) & 0xF)
 #define MFLAGEP 0x40000
 #define MFLAGPS 0x80000
 #define MFLAGCA 0x1000000
-#define MFLAGCAP 0x7c000
-#define MFLAGPROM 0xf00000
+#define MFLAGCAP 0x7C000
+#define MFLAGPROM 0xF00000
 
 #define FR2SQ(f, r) ((21 + (f)) + ((r) * 10)) // converts files and rank into 120based sq board index
 #define SQ64(sq120) (Sq120ToSq64[(sq120)])    // converts 120sq board index into 64 sq

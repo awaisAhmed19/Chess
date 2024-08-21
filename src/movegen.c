@@ -45,6 +45,7 @@ static void AddCaptureMove(const S_BOARD *pos, int move, S_MOVELIST *list)
     ASSERT(SqOnBoard(FROMSQ(move)));
     ASSERT(SqOnBoard(TOSQ(move)));
     ASSERT(CheckBoard(pos));
+
     list->moves[list->count].move = move;
     list->moves[list->count].score = 0;
     list->count++;
@@ -55,6 +56,7 @@ static void AddEnPassantMove(const S_BOARD *pos, int move, S_MOVELIST *list)
     ASSERT(SqOnBoard(FROMSQ(move)));
     ASSERT(SqOnBoard(TOSQ(move)));
     ASSERT(CheckBoard(pos));
+    ASSERT((RanksBrd[TOSQ(move)] == RANK_6 && pos->side == WHITE) || (RanksBrd[TOSQ(move)] == RANK_3 && pos->side == BLACK));
     list->moves[list->count].move = move;
     list->moves[list->count].score = 0;
     list->count++;
@@ -65,7 +67,7 @@ static void AddWhitePawnCapMove(const S_BOARD *pos, const int from, const int to
     ASSERT(SqOnBoard(from));
     ASSERT(SqOnBoard(to));
     ASSERT(CheckBoard(pos));
-    // ASSERT(PieceValidEmpty(cap));
+    ASSERT(PieceValidEmpty(cap));
     if (RanksBrd[from] == RANK_7)
     {
         AddCaptureMove(pos, MOVE(from, to, cap, wQ, 0), list);
@@ -149,7 +151,7 @@ void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list)
     int index = 0;
     int pceIndex = 0;
 
-        // pawn moves
+    // pawn moves
     if (side == WHITE)
     {
         for (pceNum = 0; pceNum < pos->pcsNum[wP]; ++pceNum)
