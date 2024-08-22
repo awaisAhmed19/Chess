@@ -12,7 +12,7 @@ typedef unsigned long long U64;
 #define MAX_FEN 2048
 #define FEN_LENGTH 256
 
-#define DEBUG
+// #define DEBUG
 
 #ifndef DEBUG
 #define ASSERT(n)

@@ -176,13 +176,16 @@ void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list)
             {
                 AddWhitePawnCapMove(pos, sq, sq + 11, pos->pieces[sq + 11], list);
             }
-            if (sq + 9 == pos->enpas)
+            if (pos->enpas != NO_SQ)
             {
-                AddEnPassantMove(pos, MOVE(sq, sq + 9, EMPTY, EMPTY, MFLAGEP), list);
-            }
-            if (sq + 11 == pos->enpas)
-            {
-                AddEnPassantMove(pos, MOVE(sq, sq + 11, EMPTY, EMPTY, MFLAGEP), list);
+                if (sq + 9 == pos->enpas)
+                {
+                    AddEnPassantMove(pos, MOVE(sq, sq + 9, EMPTY, EMPTY, MFLAGEP), list);
+                }
+                if (sq + 11 == pos->enpas)
+                {
+                    AddEnPassantMove(pos, MOVE(sq, sq + 11, EMPTY, EMPTY, MFLAGEP), list);
+                }
             }
         }
         if (pos->castlePerm & WKCA)

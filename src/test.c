@@ -105,7 +105,7 @@ void accuracyTest(FENDATA *data, S_BOARD *pos)
         ParseFen(data->fen[count], pos);
         printf("%d d4: %ld\n ", count + 1, data->D4[count]);
 
-        if (PerftTest(4, pos) == data->D4[count])
+        if (PerftTest(5, pos) == data->D5[count])
         {
             correct++;
             printf("Correct: %d count: %d\n", correct, data->count);
