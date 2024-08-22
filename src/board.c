@@ -321,10 +321,9 @@ void PrintBoard(const S_BOARD *pos)
     int sq, file, rank, piece;
 
     printf("\n Game Board:\n\n");
-    // printf("White: \u2654 \u2655 \u2656 \u2657 \u2658 \u2659\nBlack: \u265a \u265b \u265c \u265d \u265e \u265f \n");
     for (rank = RANK_8; rank >= RANK_1; rank--)
     {
-        // printf("%d ", rank + 1);
+        printf("%d ", rank + 1);
         for (file = FILE_A; file <= FILE_H; file++)
         {
             sq = FR2SQ(file, rank);

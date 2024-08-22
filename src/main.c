@@ -2,7 +2,7 @@
 #include "defs.h"
 #include <stdlib.h>
 #include "locale.h"
-#define TEST "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1 "
+#define TEST "n1n5/PPPk4/8/8/8/8/4Kppp/5N1N w - - 0 1 "
 
 int main(void)
 {
@@ -10,13 +10,36 @@ int main(void)
     // int d = 3;
     S_BOARD board[1];
     S_MOVELIST list[1];
-    FENDATA data[1];
-    getFen("C:\\Users\\awais\\Documents\\Chess\\src\\test.epd", data);
-    accuracyTest(data, board);
-    // ParseFen(TEST, board);
-    // PrintBoard(board);
 
-    // // Perft(d, board);
-    // PerftTest(3, board);
+    char input[6];
+    ParseFen(START_FEN, board);
+    while (TRUE)
+    {
+        PrintBoard(board);
+
+        fgets(input, 6, stdin);
+        if (input[0] == 'q')
+        {
+            break;
+        }
+        else if (input[0] == 't')
+        {
+            TakeMove(board);
+        }
+        else
+        {
+            int move = ParseMove(input, board);
+            if (move != NOMOVE)
+            {
+                MakeMove(board, move);
+                if (IsRepetition(board))
+                {
+                    printf("repeated");
+                }
+            }
+        }
+        fflush(stdin);
+    }
+
     return 0;
 }

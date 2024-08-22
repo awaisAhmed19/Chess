@@ -11,8 +11,8 @@ typedef unsigned long long U64;
 #define MAXGAMEMOVE 2048
 #define MAX_FEN 2048
 #define FEN_LENGTH 256
-
-// #define DEBUG
+#define NOMOVE 0
+#define DEBUG
 
 #ifndef DEBUG
 #define ASSERT(n)
@@ -323,7 +323,7 @@ extern void getFen(char *file, FENDATA *data);
 extern char *PrSq(const int sq);
 extern char *PrMove(const int move);
 extern void PrintMoveList(const S_MOVELIST *list);
-
+extern int ParseMove(char *ptrChar, S_BOARD *pos);
 // validate.c
 
 extern int SqOnBoard(const int sq);
@@ -342,5 +342,6 @@ extern void TakeMove(S_BOARD *pos);
 // perft.c
 extern long PerftTest(int depth, S_BOARD *pos);
 extern void Perft(int depth, S_BOARD *pos);
-
+// search.c
+extern int IsRepetition(S_BOARD *pos);
 #endif
