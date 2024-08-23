@@ -4,13 +4,14 @@
 #include "locale.h"
 typedef unsigned long long U64;
 
-#define Name "chess 1.0"
+#define PROJECT "chess 1.0"
 #define BRD_SQ_NUM 120
 
 #define MAXPOSITIONMOVES 256
 #define MAXGAMEMOVE 2048
 #define MAX_FEN 2048
 #define FEN_LENGTH 256
+#define MAXDEPTH 64
 #define NOMOVE 0
 #define DEBUG
 
@@ -199,6 +200,19 @@ typedef struct
 
 typedef struct
 {
+    U64 posKey;
+    int move;
+
+} S_PVENTRY;
+
+typedef struct
+{
+    S_PVENTRY *pTable;
+    int numEnteries;
+} S_PVTABLE;
+
+typedef struct
+{
     S_MOVE moves[MAXPOSITIONMOVES];
     int count;
 } S_MOVELIST;
@@ -231,6 +245,8 @@ typedef struct
     S_UNDO history[MAXGAMEMOVE];
 
     int pList[13][10]; // hold the pieces lists for the move generation
+    S_PVTABLE pvTable[1];
+    int pvArray[MAXDEPTH];
 
 } S_BOARD;
 
@@ -334,6 +350,7 @@ extern int PieceValid(const int pce);
 
 // movegen.c
 extern void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list);
+extern int MoveExist(S_BOARD *pos, const int move);
 
 // movemaker.c
 extern int MakeMove(S_BOARD *pos, int move);
@@ -344,4 +361,14 @@ extern long PerftTest(int depth, S_BOARD *pos);
 extern void Perft(int depth, S_BOARD *pos);
 // search.c
 extern int IsRepetition(S_BOARD *pos);
+
+// misc.c
+extern int getTimeMs();
+
+// hashTable.c
+extern void InitPvTable(S_PVTABLE *table);
+extern void clearPvTable(S_PVTABLE *table);
+extern void StorePvTable(const S_BOARD *pos, int move);
+extern int probePvtable(const S_BOARD *pos);
+
 #endif

@@ -35,7 +35,7 @@ long PerftTest(int depth, S_BOARD *pos)
     // PrintBoard(pos);
     // printf("\n staring test to depth: %d", depth);
     leafNodes = 0;
-
+    // int start = getTimeMs();
     S_MOVELIST list[1];
     GenerateAllMoves(pos, list);
 
