@@ -1,6 +1,35 @@
 #include "defs.h"
 #include "stdio.h"
 
+int GetPvLine(const int depth, S_BOARD *pos)
+{
+    ASSERT(depth < MAXDEPTH);
+
+    int move = probePvtable(pos);
+    int count = 0;
+
+    while (move != NOMOVE && count < depth)
+    {
+        ASSERT(count < MAXDEPTH);
+
+        if (MoveExist(pos, move))
+        {
+            MakeMove(pos, move);
+            pos->pvArray[count++] = move;
+        }
+        else
+        {
+            break;
+        }
+        move = probePvtable(pos);
+    }
+    while (pos->ply > 0)
+    {
+        TakeMove(pos);
+    }
+    return count;
+}
+
 void clearPvTable(S_PVTABLE *table)
 {
     S_PVENTRY *pvEntry;
