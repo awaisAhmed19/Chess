@@ -11,35 +11,5 @@ int main(void)
     S_BOARD board[1];
     S_MOVELIST list[1];
 
-    char input[6];
-    ParseFen(START_FEN, board);
-    while (TRUE)
-    {
-        PrintBoard(board);
-
-        fgets(input, 6, stdin);
-        if (input[0] == 'q')
-        {
-            break;
-        }
-        else if (input[0] == 't')
-        {
-            TakeMove(board);
-        }
-        else
-        {
-            int move = ParseMove(input, board);
-            if (move != NOMOVE)
-            {
-                MakeMove(board, move);
-                if (IsRepetition(board))
-                {
-                    printf("repeated");
-                }
-            }
-        }
-        fflush(stdin);
-    }
-
     return 0;
 }

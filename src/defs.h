@@ -248,8 +248,27 @@ typedef struct
     S_PVTABLE pvTable[1];
     int pvArray[MAXDEPTH];
 
+    int searchHistory[13][BRD_SQ_NUM];
+    int searchKiller[2][MAXDEPTH];
+
 } S_BOARD;
 
+typedef struct
+{
+    int starttime;
+    int stoptime;
+    int depth;
+    int depthdet;
+    int timeset;
+    int infinite;
+    int movestogo;
+
+    long nodes;
+
+    int quit;
+    int stopped;
+
+} S_SEARCHINFO;
 /*
 0000 0000 0000 0000 0000 0111 1111 -> From 0x7f
 0000 0000 0000 0011 1111 1000 0000 -> to >>7 0x7f
@@ -270,6 +289,7 @@ typedef struct
 #define MFLAGCA 0x1000000
 #define MFLAGCAP 0x7C000
 #define MFLAGPROM 0xF00000
+#define MIRROR64(sq) (Mirror64[(sq)])
 
 #define FR2SQ(f, r) ((21 + (f)) + ((r) * 10)) // converts files and rank into 120based sq board index
 #define SQ64(sq120) (Sq120ToSq64[(sq120)])    // converts 120sq board index into 64 sq
@@ -292,7 +312,7 @@ extern U64 ClearMask[64];
 extern U64 PieceKeys[13][120]; // 2d array holding has keys for different pieces at each of the 120 sq
 extern U64 SideKey;            // using ULL to represent the side to move
 extern U64 CastleKeys[16];     // array fo ULL holding the hash key for castling rights
-
+extern int Mirror64[64];
 extern char PceChar[];  // mapping array to piece types to characters
 extern char SideChar[]; // mapping the side to character
 extern char RankChar[]; // mapping rank numbers to characters (1 to 8)
@@ -360,7 +380,7 @@ extern void TakeMove(S_BOARD *pos);
 extern long PerftTest(int depth, S_BOARD *pos);
 extern void Perft(int depth, S_BOARD *pos);
 // search.c
-extern int IsRepetition(S_BOARD *pos);
+// extern int IsRepetition(S_BOARD *pos);
 
 // misc.c
 extern int getTimeMs();
@@ -371,4 +391,6 @@ extern void clearPvTable(S_PVTABLE *table);
 extern void StorePvTable(const S_BOARD *pos, int move);
 extern int probePvtable(const S_BOARD *pos);
 
+// evaluate.c
+extern int EvalPosition(const S_BOARD *pos);
 #endif
