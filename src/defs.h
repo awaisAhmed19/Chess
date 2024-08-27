@@ -15,6 +15,9 @@ typedef unsigned long long U64;
 #define NOMOVE 0
 #define DEBUG
 
+#define INFINITE 30000
+#define ISMATE (INFINITE - MAXDEPTH)
+
 #ifndef DEBUG
 #define ASSERT(n)
 #else
@@ -390,6 +393,7 @@ extern void InitPvTable(S_PVTABLE *table);
 extern void clearPvTable(S_PVTABLE *table);
 extern void StorePvTable(const S_BOARD *pos, int move);
 extern int probePvtable(const S_BOARD *pos);
+extern int GetPvLine(const int depth, S_BOARD *pos);
 
 // evaluate.c
 extern int EvalPosition(const S_BOARD *pos);
