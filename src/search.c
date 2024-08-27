@@ -1,6 +1,5 @@
 #include "defs.h"
 #include "stdio.h"
-#include "stdlib.h"
 
 static void checkUp() {}
 
@@ -32,6 +31,8 @@ static void ClearForSearch(S_BOARD *pos, S_SEARCHINFO *info) {
   info->starttime = getTimeMs();
   info->stopped = 0;
   info->nodes = 0;
+  info->fh = 0;
+  info->fhf = 0;
 }
 
 static int Quiescence(int alpha, int beta, S_BOARD *pos, S_SEARCHINFO *info) {
@@ -40,7 +41,65 @@ static int Quiescence(int alpha, int beta, S_BOARD *pos, S_SEARCHINFO *info) {
 
 static int AlphaBeta(int alpha, int beta, int depth, S_BOARD *pos,
                      S_SEARCHINFO *info, int DoNULL) {
-  return 0;
+  ASSERT(CheckBoard(pos));
+  ASSERT(beta > alpha);
+
+  if (depth == 0) {
+    info->nodes++;
+    return EvalPosition(pos);
+  }
+  info->nodes++;
+
+  if (IsRepetition(pos) || pos->fiftyMove >= 100) {
+    return 0;
+  }
+  if (pos->ply > MAXDEPTH - 1) {
+    return EvalPosition(pos);
+  }
+
+  S_MOVELIST list[1];
+  GenerateAllMoves(pos, list);
+
+  int Movenum = 0;
+  int Legal = 0;
+  int BestMove = NOMOVE;
+  int oldAlpha = alpha;
+  int Score = -INFINITE;
+
+  for (Movenum = 0; Movenum < list->count; ++Movenum) {
+    if (!MakeMove(pos, list->moves[Movenum].move)) {
+      continue;
+    }
+
+    Legal++;
+    Score = -AlphaBeta(-beta, -alpha, depth - 1, pos, info, TRUE);
+    TakeMove(pos);
+
+    if (Score > alpha) {
+      if (Score >= beta) {
+        if (Legal == 1) {
+          info->fhf++;
+        }
+        info->fh++;
+        return beta;
+      }
+      alpha = Score;
+      BestMove = list->moves[Movenum].move;
+    }
+  }
+
+  if (Legal == 0) {
+    if (sqAttacked(pos->KingSq[pos->side], pos->side ^ 1, pos)) {
+      return -INFINITE + pos->ply;
+    } else {
+      return 0;
+    }
+  }
+
+  if (alpha != oldAlpha) {
+    StorePvMove(pos, BestMove);
+  }
+  return alpha;
 }
 
 void SearchPosition(S_BOARD *pos, S_SEARCHINFO *info) {
@@ -64,5 +123,6 @@ void SearchPosition(S_BOARD *pos, S_SEARCHINFO *info) {
       printf("%s ", PrMove(pos->pvArray[pvNum]));
     }
     printf("\n");
+    printf("ordering :%.2f\n", (info->fhf / info->fh));
   }
 }

@@ -1,7 +1,6 @@
 #include "defs.h"
 #include "stdio.h"
 
-
 int CheckBoard(const S_BOARD *pos) {
   int t_pceNum[13] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   int t_bigPce[2] = {0, 0};
@@ -294,7 +293,7 @@ void ResetBoard(S_BOARD *pos) {
 
   pos->PosKey = 0ULL;
 
-  InitPvTable(pos->pvTable);
+  // InitPvTable(pos->pvTable, 2);
 }
 
 void PrintBoard(const S_BOARD *pos) {

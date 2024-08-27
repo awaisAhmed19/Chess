@@ -54,13 +54,13 @@ void getFen(char *filename, FENDATA *data) {
 
     while ((token = strtok(NULL, ";")) != NULL) {
       if (strstr(token, "D4") != NULL) {
-        sscanf(token, "D4 %ld", &d4);
+        sscanf(token, "D4 %lld", &d4);
         data->D4[index] = d4;
       } else if (strstr(token, "D5") != NULL) {
-        sscanf(token, "D5 %ld", &d5);
+        sscanf(token, "D5 %lld", &d5);
         data->D5[index] = d5;
       } else if (strstr(token, "D6") != NULL) {
-        sscanf(token, "D6 %ld", &d6);
+        sscanf(token, "D6 %lld", &d6);
         data->D6[index] = d6;
       }
     }
@@ -97,5 +97,5 @@ void accuracyTest(FENDATA *data, S_BOARD *pos) {
   printf("Data count: %d\n", data->count);
 
   float total = (float)correct / data->count;
-  printf("total accuracy %f %", total * 100);
+  printf("total accuracy %f ", total * 100);
 }

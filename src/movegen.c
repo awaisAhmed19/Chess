@@ -1,7 +1,6 @@
 #include "defs.h"
 #include "stdio.h"
 
-
 #define MOVE(f, t, ca, prom, fl)                                               \
   ((f) | ((t) << 7) | ((ca) << 14) | ((prom) << 20) | (fl))
 #define SQOFFBOARD(sq) (FilesBrd[(sq)] == OFFBOARD)
@@ -41,8 +40,8 @@ int MoveExist(S_BOARD *pos, const int move) {
     if (list->moves[MoveNum].move == move) {
       return TRUE;
     }
-    return FALSE;
   }
+  return FALSE;
 }
 static void AddQuietMove(const S_BOARD *pos, int move, S_MOVELIST *list) {
   ASSERT(SqOnBoard(FROMSQ(move)));
@@ -286,7 +285,7 @@ void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list) {
         }
 
         if (pos->pieces[t_sq] != EMPTY) {
-          if (PieceCol[pos->pieces[t_sq]] == side ^ 1) {
+          if (PieceCol[pos->pieces[t_sq]] == (side ^ 1)) {
             AddCaptureMove(pos, MOVE(sq, t_sq, pos->pieces[t_sq], EMPTY, 0),
                            list);
           }

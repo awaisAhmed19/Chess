@@ -2,7 +2,7 @@
 CC = gcc
 
 # Compiler flags
-CFLAGS = -Wall -g
+CFLAGS = -Wall -Wextra
 
 # Source files directory
 SRC_DIR = src
@@ -17,7 +17,7 @@ OUT = chess.exe
 all: $(OUT)
 
 $(OUT): $(SRCS)
-	$(CC) $(SRCS) -o $(OUT)
+	$(CC) $(CFLAGS) $(SRCS) -o $(OUT)
 	$(OUT)
 
 # Clean the build
