@@ -1,5 +1,4 @@
 #include "defs.h"
-#include "stdio.h"
 
 int GetPvLine(const int depth, S_BOARD *pos) {
   ASSERT(depth < MAXDEPTH);
@@ -26,7 +25,7 @@ int GetPvLine(const int depth, S_BOARD *pos) {
 
 void clearPvTable(S_PVTABLE *table) {
   S_PVENTRY *pvEntry;
-  for (pvEntry = table->pTable; pvEntry < table->pTable + table->numEnteries;
+  for (pvEntry = table->pTable; pvEntry < (table->pTable + table->numEnteries);
        pvEntry++) {
     pvEntry->posKey = 0ULL;
     pvEntry->move = NOMOVE;
@@ -36,17 +35,21 @@ void clearPvTable(S_PVTABLE *table) {
 void InitPvTable(S_PVTABLE *table, const int MB) {
   const int PvSize = 0x100000 * MB;
   table->numEnteries = PvSize / sizeof(S_PVENTRY);
+  printf("%d table enteries", table->numEnteries);
   table->numEnteries -= 2;
   if (table->pTable != NULL) {
     free(table->pTable);
+    table->pTable = NULL;
   }
   table->pTable = (S_PVENTRY *)malloc(table->numEnteries * sizeof(S_PVENTRY));
   if (table->pTable == NULL) {
-    printf("hash Allocation failed, trying %dMB...\n", MB / 2);
-    InitPvTable(table, MB / 2);
+    if (MB > 1) {
+      printf("Hash Allocation Failed, trying %dMB...\n", MB / 2);
+      InitPvTable(table, MB / 2);
+    }
   } else {
     clearPvTable(table);
-    printf("Pvtable init complete with %d entries ", table->numEnteries);
+    printf("HashTable init complete with %d entries\n", table->numEnteries);
   }
 }
 

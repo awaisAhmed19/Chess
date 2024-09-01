@@ -1,7 +1,10 @@
 #ifndef DEFS_H
 #define DEFS_H
+#include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
 
+extern void free(void *ptr);
 typedef unsigned long long U64;
 
 #define PROJECT "chess 1.0"

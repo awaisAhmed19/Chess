@@ -1,7 +1,4 @@
 #include "defs.h"
-#include "locale.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 #define TEST "n1n5/PPPk4/8/8/8/8/4Kppp/5N1N w - - 0 1 "
 
@@ -15,8 +12,8 @@ int main(void) {
 
   char input[6];
   int Move = NOMOVE;
-  // int pvNum = 0;
-  // int Max = 0;
+  int pvNum = 0;
+  int Max = 0;
 
   while (TRUE) {
     PrintBoard(board);
@@ -27,6 +24,13 @@ int main(void) {
       break;
     } else if (input[0] == 't') {
       TakeMove(board);
+    } else if (input[0] == 'p') {
+      Max = GetPvLine(4, board);
+      printf("pvLine of %d moves", Max);
+      for (pvNum = 0; pvNum < Max; ++pvNum) {
+        Move = board->pvArray[pvNum];
+        printf("%s ", PrMove(Move));
+      }
     } else if (input[0] == 's') {
       info->depth = 4;
       SearchPosition(board, info);
