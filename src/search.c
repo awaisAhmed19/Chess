@@ -26,7 +26,7 @@ static void ClearForSearch(S_BOARD *pos, S_SEARCHINFO *info) {
     }
   }
 
-  // clearPvTable(pos->pvTable);
+  clearPvTable(pos->pvTable);
   pos->ply = 0;
   info->starttime = getTimeMs();
   info->stopped = 0;

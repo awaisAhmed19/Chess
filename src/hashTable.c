@@ -1,7 +1,7 @@
 #include "defs.h"
 
 int GetPvLine(const int depth, S_BOARD *pos) {
-  ASSERT(depth < MAXDEPTH);
+  // ASSERT(depth < MAXDEPTH && depth >= 1);
 
   int move = probePvtable(pos);
   int count = 0;
@@ -33,20 +33,18 @@ void clearPvTable(S_PVTABLE *table) {
 }
 
 void InitPvTable(S_PVTABLE *table, const int MB) {
-  const int PvSize = 0x100000 * MB;
+  int PvSize = 0x100000 * MB;
   table->numEnteries = PvSize / sizeof(S_PVENTRY);
   printf("%d table enteries", table->numEnteries);
   table->numEnteries -= 2;
   if (table->pTable != NULL) {
-    free(table->pTable);
+    // free(table->pTable);
     table->pTable = NULL;
   }
   table->pTable = (S_PVENTRY *)malloc(table->numEnteries * sizeof(S_PVENTRY));
   if (table->pTable == NULL) {
-    if (MB > 1) {
-      printf("Hash Allocation Failed, trying %dMB...\n", MB / 2);
-      InitPvTable(table, MB / 2);
-    }
+    printf("Hash Allocation Failed, trying %dMB...\n", MB / 2);
+    InitPvTable(table, MB / 2);
   } else {
     clearPvTable(table);
     printf("HashTable init complete with %d entries\n", table->numEnteries);
