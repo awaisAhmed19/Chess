@@ -293,7 +293,7 @@ void ResetBoard(S_BOARD *pos) {
 
   pos->PosKey = 0ULL;
 
-  InitPvTable(pos->pvTable, 2);
+  //  InitPvTable(pos->pvTable, 2);
 }
 
 void PrintBoard(const S_BOARD *pos) {

@@ -98,6 +98,9 @@ int EvalPosition(const S_BOARD *pos) {
     ASSERT(SqOnBoard(sq));
     score -= RookTable[MIRROR64(SQ64(sq))];
   }
-
-  return 0;
+  if (pos->side == WHITE) {
+    return score;
+  } else {
+    return -score;
+  }
 }

@@ -349,7 +349,7 @@ extern int PieceValid(const int pce);
 // movegen.c
 extern void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list);
 extern int MoveExist(S_BOARD *pos, const int move);
-
+extern int InitMvvLva();
 // movemaker.c
 extern int MakeMove(S_BOARD *pos, int move);
 extern void TakeMove(S_BOARD *pos);

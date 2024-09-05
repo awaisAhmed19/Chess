@@ -112,4 +112,5 @@ void AllInit() {
   InitBitMasks();
   InitHasKeys();
   InitFileRankBrd();
+  InitMvvLva();
 }

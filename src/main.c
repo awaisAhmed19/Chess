@@ -1,14 +1,17 @@
 #include "defs.h"
 
-#define TEST "n1n5/PPPk4/8/8/8/8/4Kppp/5N1N w - - 0 1 "
+#define TEST                                                                   \
+  "r1b1k2r/ppppnppp/2n2q2/2b5/3NP3/2P1B3/PP3PPP/RN1QKB1R w KQkq - 0 1 "
 
+#define TEST2 "2rr3k/pp3pp1/1nnqbN1p/3pN3/2pP4/2P3Q1/PPB4P/R4RK1 w - - "
 int main(void) {
   AllInit();
   // int d = 3;
   S_BOARD board[1];
-  // S_MOVELIST list[1];
+  InitPvTable(board->pvTable, 2);
+  S_MOVELIST list[1];
   S_SEARCHINFO info[1];
-  ParseFen(START_FEN, board);
+  ParseFen(TEST2, board);
 
   char input[6];
   int Move = NOMOVE;
@@ -45,5 +48,6 @@ int main(void) {
     }
     fflush(stdin);
   }
+  free(board->pvTable->pTable);
   return 0;
 }

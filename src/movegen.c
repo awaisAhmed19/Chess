@@ -26,6 +26,21 @@ const int PceDir[13][8] = {{0, 0, 0, 0, 0, 0, 0},
                            {-1, -10, 1, 10, -9, -11, 11, 9}};
 
 const int NumDir[13] = {0, 0, 8, 4, 4, 8, 8, 0, 8, 4, 4, 8, 8};
+const int VictimScore[13] = {0,   100, 200, 300, 400, 500, 600,
+                             100, 200, 300, 400, 500, 600};
+static int MvvLvaScores[13][13];
+
+int InitMvvLva() {
+  int Attacker;
+  int Victim;
+
+  for (Attacker = wP; Attacker <= bK; ++Attacker) {
+    for (Victim = wP; Victim <= bK; ++Victim) {
+      MvvLvaScores[Victim][Attacker] =
+          VictimScore[Victim] + 6 - (VictimScore[Attacker] / 100);
+    }
+  }
+}
 
 int MoveExist(S_BOARD *pos, const int move) {
   S_MOVELIST list[1];
@@ -58,7 +73,8 @@ static void AddCaptureMove(const S_BOARD *pos, int move, S_MOVELIST *list) {
   ASSERT(CheckBoard(pos));
 
   list->moves[list->count].move = move;
-  list->moves[list->count].score = 0;
+  list->moves[list->count].score =
+      MvvLvaScores[CAPTURED(move)][pos->pieces[FROMSQ(move)]];
   list->count++;
 }
 
@@ -69,7 +85,7 @@ static void AddEnPassantMove(const S_BOARD *pos, int move, S_MOVELIST *list) {
   ASSERT((RanksBrd[TOSQ(move)] == RANK_6 && pos->side == WHITE) ||
          (RanksBrd[TOSQ(move)] == RANK_3 && pos->side == BLACK));
   list->moves[list->count].move = move;
-  list->moves[list->count].score = 0;
+  list->moves[list->count].score = 105;
   list->count++;
 }
 

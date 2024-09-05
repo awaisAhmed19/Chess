@@ -1,8 +1,25 @@
 #include "defs.h"
 #include "stdio.h"
-
+#define MATE 29000
 static void checkUp() {}
 
+static void PickNextMove(int moveNum, S_MOVELIST *list) {
+  S_MOVE temp;
+  int index = 0;
+  int bestScore = 0;
+  int bestNum = moveNum;
+
+  for (index = moveNum; index < list->count; ++index) {
+    if (list->moves[index].score > bestScore) {
+      bestScore = list->moves[index].score;
+      bestNum = index;
+    }
+  }
+
+  temp = list->moves[moveNum];
+  list->moves[moveNum] = list->moves[bestNum];
+  list->moves[bestNum] = temp;
+}
 static int IsRepetition(S_BOARD *pos) {
   for (int index = pos->hisply - pos->fiftyMove; index < pos->hisply - 1;
        ++index) {
@@ -90,12 +107,11 @@ static int AlphaBeta(int alpha, int beta, int depth, S_BOARD *pos,
 
   if (Legal == 0) {
     if (sqAttacked(pos->KingSq[pos->side], pos->side ^ 1, pos)) {
-      return -INFINITE + pos->ply;
+      return -MATE + pos->ply;
     } else {
       return 0;
     }
   }
-
   if (alpha != oldAlpha) {
     StorePvMove(pos, BestMove);
   }
@@ -111,16 +127,16 @@ void SearchPosition(S_BOARD *pos, S_SEARCHINFO *info) {
 
   ClearForSearch(pos, info);
 
-  for (currentDepth = 0; currentDepth <= info->depth; ++currentDepth) {
+  for (currentDepth = 1; currentDepth <= info->depth; ++currentDepth) {
     bestScore = AlphaBeta(-INFINITE, INFINITE, currentDepth, pos, info, TRUE);
     pvMoves = GetPvLine(currentDepth, pos);
     bestMove = pos->pvArray[0];
-    printf("Depth: %d score: %d move:%s nodes: %ld", currentDepth, bestScore,
+    printf("Depth: %d score: %d move:%s nodes: %ld ", currentDepth, bestScore,
            PrMove(bestMove), info->nodes);
     pvMoves = GetPvLine(currentDepth, pos);
     printf("pv");
     for (pvNum = 0; pvNum < pvMoves; ++pvNum) {
-      printf("%s ", PrMove(pos->pvArray[pvNum]));
+      printf(" %s ", PrMove(pos->pvArray[pvNum]));
     }
     printf("\n");
     printf("ordering :%.2f\n", (info->fhf / info->fh));
