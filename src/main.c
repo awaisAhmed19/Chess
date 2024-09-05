@@ -11,7 +11,7 @@ int main(void) {
   InitPvTable(board->pvTable, 2);
   S_MOVELIST list[1];
   S_SEARCHINFO info[1];
-  ParseFen(TEST2, board);
+  ParseFen(TEST, board);
 
   char input[6];
   int Move = NOMOVE;
@@ -35,7 +35,7 @@ int main(void) {
         printf("%s ", PrMove(Move));
       }
     } else if (input[0] == 's') {
-      info->depth = 4;
+      info->depth = 6;
       SearchPosition(board, info);
     } else {
       Move = ParseMove(input, board);

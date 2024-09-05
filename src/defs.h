@@ -15,7 +15,7 @@ typedef unsigned long long U64;
 #define FEN_LENGTH 256
 #define MAXDEPTH 64
 #define NOMOVE 0
-#define DEBUG
+// #define DEBUG
 
 #define INFINITE 30000
 #define ISMATE (INFINITE - MAXDEPTH)
@@ -349,6 +349,7 @@ extern int PieceValid(const int pce);
 // movegen.c
 extern void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list);
 extern int MoveExist(S_BOARD *pos, const int move);
+extern void GenerateAllCaps(const S_BOARD *pos, S_MOVELIST *list);
 extern int InitMvvLva();
 // movemaker.c
 extern int MakeMove(S_BOARD *pos, int move);
