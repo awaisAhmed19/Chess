@@ -35,7 +35,6 @@ void clearPvTable(S_PVTABLE *table) {
 void InitPvTable(S_PVTABLE *table, const int MB) {
   int PvSize = 0x100000 * MB;
   table->numEnteries = PvSize / sizeof(S_PVENTRY);
-  printf("%d table enteries", table->numEnteries);
   table->numEnteries -= 2;
   if (table->pTable != NULL) {
     // free(table->pTable);
@@ -43,11 +42,9 @@ void InitPvTable(S_PVTABLE *table, const int MB) {
   }
   table->pTable = (S_PVENTRY *)malloc(table->numEnteries * sizeof(S_PVENTRY));
   if (table->pTable == NULL) {
-    printf("Hash Allocation Failed, trying %dMB...\n", MB / 2);
     InitPvTable(table, MB / 2);
   } else {
     clearPvTable(table);
-    printf("HashTable init complete with %d entries\n", table->numEnteries);
   }
 }
 

@@ -376,4 +376,7 @@ extern int EvalPosition(const S_BOARD *pos);
 
 // search.c
 extern void SearchPosition(S_BOARD *pos, S_SEARCHINFO *info);
+
+// UCI.c
+extern void UciLoop();
 #endif
