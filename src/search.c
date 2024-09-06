@@ -6,6 +6,7 @@ static void checkUp(S_SEARCHINFO *info) {
   if (info->timeset == TRUE && getTimeMs() > info->stoptime) {
     info->stopped = TRUE;
   }
+  ReadInput(info);
 }
 
 static void PickNextMove(int moveNum, S_MOVELIST *list) {
@@ -241,7 +242,7 @@ void SearchPosition(S_BOARD *pos, S_SEARCHINFO *info) {
       printf(" %s ", PrMove(pos->pvArray[pvNum]));
     }
     printf("\n");
-    printf("ordering :%.2f\n", (info->fhf / info->fh));
+    //    printf("ordering :%.2f\n", (info->fhf / info->fh));
   }
   printf("BestMove %s", PrMove(bestMove));
 }

@@ -363,7 +363,7 @@ extern void Perft(int depth, S_BOARD *pos);
 
 // misc.c
 extern int getTimeMs();
-
+extern void ReadInput(S_SEARCHINFO *info);
 // hashTable.c
 extern void InitPvTable(S_PVTABLE *table, const int MB);
 extern void clearPvTable(S_PVTABLE *table);
