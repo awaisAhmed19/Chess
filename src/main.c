@@ -5,7 +5,12 @@
 
 #define TEST2 "2rr3k/pp3pp1/1nnqbN1p/3pN3/2pP4/2P3Q1/PPB4P/R4RK1 w - - "
 int main(void) {
+
   AllInit();
-  UciLoop();
+  S_BOARD pos[1];
+  S_SEARCHINFO info[1];
+  InitPvTable(pos->pvTable, 2);
+  UciLoop(pos, info);
+  free(pos->pvTable->pTable);
   return 0;
 }

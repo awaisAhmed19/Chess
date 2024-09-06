@@ -234,15 +234,33 @@ void SearchPosition(S_BOARD *pos, S_SEARCHINFO *info) {
     }
     pvMoves = GetPvLine(currentDepth, pos);
     bestMove = pos->pvArray[0];
-    printf("Depth: %d score: %d move:%s nodes: %ld ", currentDepth, bestScore,
-           PrMove(bestMove), info->nodes);
-    pvMoves = GetPvLine(currentDepth, pos);
-    printf("pv");
-    for (pvNum = 0; pvNum < pvMoves; ++pvNum) {
-      printf(" %s ", PrMove(pos->pvArray[pvNum]));
+    if (info->GAME_MODE == UCIMODE) {
+      printf("info score cp %d depth %d nodes %ld time %d ", bestScore,
+             currentDepth, info->nodes, getTimeMs() - info->starttime);
+    } else if (info->GAME_MODE == XBOARDMODE && info->POST_THINKING == TRUE) {
+      printf("%d %d %d %ld", currentDepth, bestScore,
+             (getTimeMs() - info->starttime / 10), info->nodes);
+    } else if (info->POST_THINKING == TRUE) {
+      printf("score: %d depth: %d nodes: %ld time: %d ", bestScore,
+             currentDepth, info->nodes, getTimeMs() - info->starttime);
     }
-    printf("\n");
-    //    printf("ordering :%.2f\n", (info->fhf / info->fh));
+    if (info->GAME_MODE == UCIMODE || info->POST_THINKING == TRUE) {
+
+      pvMoves = GetPvLine(currentDepth, pos);
+      printf("pv");
+      for (pvNum = 0; pvNum < pvMoves; ++pvNum) {
+        printf(" %s ", PrMove(pos->pvArray[pvNum]));
+      }
+      printf("\n");
+      //    printf("ordering :%.2f\n", (info->fhf / info->fh));
+    }
   }
-  printf("BestMove %s", PrMove(bestMove));
+  if (info->GAME_MODE == UCIMODE) {
+    printf("BestMove %s", PrMove(bestMove));
+  } else if (info->GAME_MODE == XBOARDMODE) {
+    MakeMove(pos, bestMove);
+  } else {
+    printf("\n\n***!! Chess Makes move %s !!***\n\n", PrMove(bestMove));
+    PrintBoard(pos);
+  }
 }

@@ -226,7 +226,8 @@ typedef struct {
   int movestogo;
 
   long nodes;
-
+  int GAME_MODE;
+  int POST_THINKING;
   int quit;
   int stopped;
 
@@ -378,5 +379,5 @@ extern int EvalPosition(const S_BOARD *pos);
 extern void SearchPosition(S_BOARD *pos, S_SEARCHINFO *info);
 
 // UCI.c
-extern void UciLoop();
+extern void UciLoop(S_BOARD *pos, S_SEARCHINFO *info);
 #endif
